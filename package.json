@@ -29,7 +29,11 @@
     "mocha": "*",
     "should": "*",
     "jscoverage": "*",
-    "jsl": "*"
+    "cheerio":"",
+    "jsl": "*",
+   "express": "~3.4.4",
+    "mongodb":"",
+    "node-schedule":""
   },
   "optionalDependencies": {},
   "engines": {

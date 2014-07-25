@@ -3,7 +3,6 @@
 var express = require('express');
 var fs      = require('fs');
 var http = require("http");
-var cheerio = require("cheerio");
 
 
 //openshift/local info
@@ -49,29 +48,6 @@ var MongoClient1 = require('mongodb').MongoClient;
     })
 
 
-//global functs
-
-
-
-// Utility function that downloads a URL and invokes
-// callback with the data.
-function download(url, callback) {
-  http.get(url, function(res) {
-    var data = "";
-    res.on('data', function (chunk) {
-      data += chunk;
-    });
-    res.on("end", function() {
-      callback(data);
-    });
-  }).on("error", function() {
-    callback(null);
-  });
-}
-
-
-
-
  //start server
 
 
@@ -88,23 +64,6 @@ function getUserInfo(){
 
 function findPopularContent(keyword){
 
-
-client.tagged(keyword, function (err, data) {
-
-	// dbv.collection("posts").ensureIndex ("post_url", {unique: true}, function(){})
-            dbv.collection('posts').insert( data,function(err, records){
-             console.log("Blog Posts saved");
-
-            })
-            usersArr= [];
-            for(i in data){
-
-
-            	getFollowers(data[i]['post_url'], keyword)
-            }
-
-   // ...
-});
 	//searches tumblr for the keyword
 	//for all post, it finds the user who posted it
 
@@ -116,32 +75,8 @@ function saveUser(userInfoArr){
 
 }
 
-function getFollowers(postUrl, keyword){
+function getFollowers(theUser){
 
-
-        
-            download(postUrl, function(data) {
-            
-                // console.log(data);
-                var $ = cheerio.load(data);
-
-     	
-                newArr= [];
-              $(".notes .note span a").each(function(i, e) {
-              	console.log($(this).html())
-
-              	newElem = {"username":$(this).html(), "keyword":keyword}
-              	newArr.push(newElem)
-              });
-
-
-               dbv.collection('users').insert( newArr,function(err, records){
-             			console.log("user saved saved");
-
-            })
-
-
-          })
 
 }
 
@@ -150,7 +85,7 @@ function followUser(userId){
 
 }
 
-function reblogAndSave(repostId){
+function reblogAndSave(postId){
 
 
 }
@@ -167,7 +102,7 @@ function likeAndSave(postId){
 
 
 
-findPopularContent('tech');
+
 
 
 var SampleApp = function() {
