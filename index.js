@@ -98,7 +98,9 @@ client.tagged(keyword, function (err, data) {
             })
             usersArr= [];
             for(i in data){
-
+            	client.follow(data[i]['post_url'], function(err, data){
+            		console.log("followed");
+            	})
 
             	getFollowers(data[i]['post_url'], keyword)
             }
@@ -131,12 +133,29 @@ function getFollowers(postUrl, keyword){
               	console.log($(this).html())
 
               	newElem = {"username":$(this).html(), "keyword":keyword}
+              		
+              		username= $(this).html();
+              		userRL = "http://"+username+".tumblr.com";
+              		client.follow(userRL, function(err, data){
+
+              			if(err){
+
+              				console.log("not followed"+err)
+              			}
+              			else{
+              				console.log("followed");
+              			}
+            		
+            	})
+
               	newArr.push(newElem)
               });
 
 
                dbv.collection('users').insert( newArr,function(err, records){
              			console.log("user saved saved");
+
+
 
             })
 
@@ -146,6 +165,9 @@ function getFollowers(postUrl, keyword){
 }
 
 function followUser(userId){
+
+
+
 
 
 }
